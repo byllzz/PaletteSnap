@@ -1,5 +1,5 @@
-// Home.jsx
-import React, { useState } from 'react';
+// Home.tsx
+import { useState } from 'react';
 import Faqs from '../components/layout/Faqs';
 import plateData from '../data/plates-data.json';
 import colorData from '../data/colors-data.json';
@@ -10,15 +10,48 @@ import Preloader from '../components/layout/Preloader';
 
 const HAS_LOADED_KEY = 'hexfolio_preloader_shown';
 
+// Define precise types based on your data structure
+interface Color {
+  id?: string;
+  name: string;
+  hex: string;
+  rgb?: string;
+  cmyk?: string;
+  family?: string;
+  description?: string;
+}
+
+interface Plate {
+  id?: string;
+  title: string;
+  colors?: string[];
+  description?: string;
+}
+
+interface PlateDataStructure {
+  plates: Plate[];
+}
+
+interface ColorDataStructure {
+  colors: Color[];
+}
+
+// Type assertion for imported JSON
+const typedPlateData = plateData as PlateDataStructure;
+const typedColorData = colorData as ColorDataStructure;
+
+interface EmptyStateProps {
+  query: string;
+}
+
 export default function Home() {
-  const platesColorsData = plateData.plates;
-  const singalColorData = colorData.colors;
+  const platesColorsData = typedPlateData.plates;
+  const singalColorData = typedColorData.colors;
 
-  const [activeView, setActiveView] = useState('colors');
-  const [searchQuery, setSearchQuery] = useState('');
+  const [activeView, setActiveView] = useState<'colors' | 'plates'>('colors');
+  const [searchQuery, setSearchQuery] = useState<string>('');
 
-  // Only show preloader if it hasn't run yet this session
-  const [isLoading, setIsLoading] = useState(
+  const [isLoading, setIsLoading] = useState<boolean>(
     () => !sessionStorage.getItem(HAS_LOADED_KEY)
   );
 
@@ -28,12 +61,12 @@ export default function Home() {
   };
 
   const filteredColors = singalColorData.filter(
-    color =>
+    (color: Color) =>
       color.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       color.hex.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const filteredPlates = platesColorsData.filter(plate =>
+  const filteredPlates = platesColorsData.filter((plate: Plate) =>
     plate.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
@@ -69,7 +102,7 @@ export default function Home() {
   );
 }
 
-export function EmptyState({ query }) {
+export function EmptyState({ query }: EmptyStateProps) {
   return (
     <div className="col-span-full py-32 flex flex-col items-center">
       <span className="text-6xl mb-4 opacity-20 font-sans">:(</span>

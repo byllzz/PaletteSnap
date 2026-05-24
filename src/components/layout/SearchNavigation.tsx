@@ -1,7 +1,18 @@
-import React from 'react';
 import { Search, Command, SlidersHorizontal } from 'lucide-react';
 
-export default function SearchNavigation({ searchQuery, setSearchQuery, activeView, setActiveView }) {
+interface SearchNavigationProps {
+  searchQuery: string;
+  setSearchQuery: (query: string) => void;
+  activeView: 'colors' | 'plates';
+  setActiveView: (view: 'colors' | 'plates') => void;
+}
+
+export default function SearchNavigation({
+  searchQuery,
+  setSearchQuery,
+  activeView,
+  setActiveView
+}: SearchNavigationProps) {
   return (
     <div className="flex flex-col items-center mb-32 w-full px-6">
 

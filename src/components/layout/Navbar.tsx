@@ -1,10 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
-import { FaGithub } from 'react-icons/fa';
+import { useState, useEffect } from 'react';
+import { NavLink, NavLinkProps } from 'react-router-dom';
 
-const COLOR_STRIP = ['#8B2635','#C84B31','#E2FF46','#2E9CCA','#2D5016','#8154F0'];
+const COLOR_STRIP: string[] = ['#8B2635','#C84B31','#E2FF46','#2E9CCA','#2D5016','#8154F0'];
 
-const LINKS = [
+interface LinkItem {
+  to: string;
+  label: string;
+  sub: string;
+}
+
+const LINKS: LinkItem[] = [
   { to: '/',       label: 'Dictionary', sub: 'Browse all 486 colors' },
   { to: '/about',  label: 'About',      sub: 'The Wada Sanzo archive' },
   { to: '/faqs',   label: 'FAQ',        sub: 'Common questions' },
@@ -19,19 +24,22 @@ const GitHubIcon = () => (
 
 const LogoMark = () => (
   <NavLink to="/" className="flex items-center gap-2 group">
-    {/* 4-color swatch strip as logo icon */}
     <div className="flex overflow-hidden rounded-full border border-black/10 h-[22px]">
       {['#8B2635','#C84B31','#E2FF46','#2E9CCA'].map(c => (
         <div key={c} className="w-[10px] h-full" style={{ background: c }} />
       ))}
     </div>
     <span className="font-outfit text-[15px] font-semibold tracking-tight text-black">
-      Hex<span className="text-[#C84B31]">folio</span>
+      Palette<span className="text-[#C84B31]">Snap</span>
     </span>
   </NavLink>
 );
 
-const ColorStrip = ({ rounded = '' }) => (
+interface ColorStripProps {
+  rounded?: string;
+}
+
+const ColorStrip = ({ rounded = '' }: ColorStripProps) => (
   <div className={`flex h-[3px] ${rounded}`}>
     {COLOR_STRIP.map(c => (
       <div key={c} className="flex-1" style={{ background: c }} />
@@ -39,15 +47,19 @@ const ColorStrip = ({ rounded = '' }) => (
   </div>
 );
 
+interface NavLinkClassesProps {
+  isActive: boolean;
+}
+
 export default function Navbar() {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
 
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
   }, [open]);
 
-  const linkCls = ({ isActive }) =>
+  const linkCls = ({ isActive }: NavLinkClassesProps): string =>
     `relative font-outfit text-[13px] font-medium px-3 py-1.5 rounded-full transition-all duration-200 ${
       isActive
         ? 'text-black after:absolute after:bottom-[3px] after:left-1/2 after:-translate-x-1/2 after:w-1 after:h-1 after:rounded-full after:bg-[#C84B31]'
@@ -60,24 +72,21 @@ export default function Navbar() {
         <div className="w-full max-w-[700px] overflow-hidden rounded-full"
           style={{ boxShadow: '0 2px 20px rgba(0,0,0,.08)' }}>
 
-          {/* colour strip sits above the pill */}
           <ColorStrip />
 
           <div className="flex items-center justify-between bg-white/95 backdrop-blur-md border-x border-b border-black/[0.07] px-6 h-12 rounded-b-full">
             <LogoMark />
 
-            {/* Desktop links */}
             <div className="hidden md:flex items-center gap-0.5">
               {LINKS.map(({ to, label }) => (
                 <NavLink key={to} to={to} className={linkCls}>{label}</NavLink>
               ))}
             </div>
 
-            {/* Right actions */}
             <div className="flex items-center gap-2">
               <div className="hidden md:block w-px h-4 bg-black/10 mx-1" />
-          <a
-                href="https://github.com/byllzz/hexfolio"
+              <a
+                href="https://github.com/byllzz/palettesnap"
                 target="_blank"
                 rel="noreferrer"
                 className="flex items-center justify-center w-8 h-8 rounded-full border border-black/10 text-black/50 hover:bg-black hover:text-white hover:border-black transition-all duration-200"
@@ -89,7 +98,6 @@ export default function Navbar() {
                 Explore
               </button>
 
-              {/* Hamburger — mobile only */}
               <button
                 onClick={() => setOpen(o => !o)}
                 className="md:hidden flex flex-col justify-center items-center gap-[5px] w-9 h-9 rounded-full bg-zinc-100 border border-black/07"
@@ -104,10 +112,8 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Mobile overlay */}
       <div
-  className =
-    {`fixed inset-x-4 top-[76px] z-[55] md:hidden  bg-white rounded-2xl border border-black/[0.07] overflow-hidden transition-all duration-30 ease-out origin-top ${open ? 'opacity-100 scale-y-100 pointer-events-auto' : 'opacity-0 scale-y-95 pointer-events-none'}`}>
+        className={`fixed inset-x-4 top-[76px] z-[55] md:hidden bg-white rounded-2xl border border-black/[0.07] overflow-hidden transition-all duration-30 ease-out origin-top ${open ? 'opacity-100 scale-y-100 pointer-events-auto' : 'opacity-0 scale-y-95 pointer-events-none'}`}>
         <ColorStrip />
 
         <div className="p-2">
@@ -132,8 +138,8 @@ export default function Navbar() {
         </div>
 
         <div className="px-3 pb-3">
-        <a
-            href="https://github.com/byllzz/hexfolio"
+          <a
+            href="https://github.com/byllzz/palettesnap"
             target="_blank"
             rel="noreferrer"
             className="flex items-center justify-center gap-2 w-full bg-black text-white text-[13px] font-medium py-3 rounded-xl hover:opacity-82 transition-opacity"
@@ -142,9 +148,8 @@ export default function Navbar() {
             View on GitHub
           </a>
         </div>
-        </div>
+      </div>
 
-      {/* Backdrop tap to close */}
       {open && (
         <div
           className="fixed inset-0 z-[50] md:hidden"

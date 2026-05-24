@@ -1,38 +1,61 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import SingleColorCard from '../ui/SingleColorCard';
 import PlateCard from '../ui/PlateCard';
 import { EmptyState } from '../../pages/Home';
 
+interface Color {
+  id: string;
+  name: string;
+  hex: string;
+  [key: string]: any;
+}
+
+interface Plate {
+  id?: string;
+  title: string;
+  colors?: string[];
+  [key: string]: any;
+}
+
+interface ContentGridProps {
+  activeView: 'colors' | 'plates';
+  filteredColors: Color[];
+  filteredPlates: Plate[];
+  searchQuery: string;
+}
+
 const COLORS_PER_PAGE = 80;
 const PLATES_PER_PAGE = 9;
 
-export default function ContentGrid({ activeView, filteredColors, filteredPlates, searchQuery }) {
-  const [page, setPage] = useState(1);
+export default function ContentGrid({
+  activeView,
+  filteredColors,
+  filteredPlates,
+  searchQuery
+}: ContentGridProps) {
+  const [page, setPage] = useState<number>(1);
 
-  // Reset to page 1 whenever view or search changes
   useEffect(() => {
     setPage(1);
   }, [activeView, searchQuery]);
 
   const isColors = activeView === 'colors';
   const allItems = isColors ? filteredColors : filteredPlates;
-  const perPage  = isColors ? COLORS_PER_PAGE : PLATES_PER_PAGE;
+  const perPage = isColors ? COLORS_PER_PAGE : PLATES_PER_PAGE;
 
-  const totalPages  = Math.ceil(allItems.length / perPage);
-  const startIdx    = (page - 1) * perPage;
+  const totalPages = Math.ceil(allItems.length / perPage);
+  const startIdx = (page - 1) * perPage;
   const visibleItems = allItems.slice(startIdx, startIdx + perPage);
 
   const itemCount = allItems.length;
   const viewLabel = isColors ? 'Pigments' : 'Harmonies';
 
-  const goTo = (p) => {
+  const goTo = (p: number) => {
     setPage(p);
-    // Scroll back to grid top smoothly
     document.getElementById('gridContent')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
-  // Build page number list with ellipsis
-  const getPageNumbers = () => {
+  const getPageNumbers = (): (number | string)[] => {
     if (totalPages <= 7) return Array.from({ length: totalPages }, (_, i) => i + 1);
     if (page <= 4) return [1, 2, 3, 4, 5, '…', totalPages];
     if (page >= totalPages - 3) return [1, '…', totalPages - 4, totalPages - 3, totalPages - 2, totalPages - 1, totalPages];
@@ -60,7 +83,7 @@ export default function ContentGrid({ activeView, filteredColors, filteredPlates
             </span>
           )}
           <span className="font-mono text-[9px] uppercase tracking-widest text-white/20">
-            Hexfolio Archive / 2026
+            PaletteSnap Archive / 2026
           </span>
         </div>
       </div>
@@ -96,7 +119,7 @@ export default function ContentGrid({ activeView, filteredColors, filteredPlates
             {visibleItems.length > 0 ? (
               visibleItems.map((plate, idx) => (
                 <div
-                  key={idx}
+                  key={plate.id || idx}
                   style={{ animationDelay: `${Math.min(idx * 60, 400)}ms` }}
                   className="animate-in fade-in slide-in-from-bottom-6 fill-mode-both"
                 >
@@ -135,7 +158,7 @@ export default function ContentGrid({ activeView, filteredColors, filteredPlates
               ) : (
                 <button
                   key={p}
-                  onClick={() => goTo(p)}
+                  onClick={() => goTo(p as number)}
                   className={`w-9 h-9 flex items-center justify-center rounded-full font-mono text-[11px] tracking-wider transition-all ${
                     p === page
                       ? 'bg-white text-black font-medium'

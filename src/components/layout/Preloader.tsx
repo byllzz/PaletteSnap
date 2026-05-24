@@ -1,9 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-export default function Preloader({ onComplete }) {
-  const [count, setCount] = useState(0);
-  const [isVisible, setIsVisible] = useState(true);
+interface PreloaderProps {
+  onComplete: () => void;
+}
+
+export default function Preloader({ onComplete }: PreloaderProps) {
+  const [count, setCount] = useState<number>(0);
+  const [isVisible, setIsVisible] = useState<boolean>(true);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -37,7 +41,7 @@ export default function Preloader({ onComplete }) {
             <div className="relative">
               {/* Background Layer  */}
               <h1 className="text-[12vw] font-fair italic text-zinc-100 uppercase leading-none tracking-tighter select-none">
-                Hexfolio
+                PaletteSnap
               </h1>
 
               {/* Foreground Fill Layer */}
@@ -47,7 +51,7 @@ export default function Preloader({ onComplete }) {
                 transition={{ ease: 'linear', duration: 0.1 }}
                 className="absolute inset-0 text-[12vw] font-fair italic text-black uppercase leading-none tracking-tighter select-none"
               >
-                Hexfolio
+                PaletteSnap
               </motion.h1>
             </div>
 

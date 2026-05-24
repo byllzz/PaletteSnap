@@ -1,10 +1,10 @@
-import React from 'react';
 import { FaArrowLeft } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
+
 export default function License() {
   return (
     <section className="min-h-screen bg-black text-white pt-32 pb-20 px-6 md:px-16 relative overflow-hidden pt-10">
-      {/* Background Watermark  */}
+      {/* Background Watermark */}
       <div className="absolute top-10 left-0 w-full select-none pointer-events-none z-0">
         <h1
           className="text-[20vw] font-bold leading-none uppercase tracking-tighter opacity-10"
@@ -54,7 +54,7 @@ export default function License() {
                 The color combinations and theories presented in this index are based on the
                 historical work <strong>"Haishoku Sōkan"</strong> (1933) by Wada Sanzō. While the
                 original research is in the public domain in many jurisdictions, this digital
-                interpretation and curated dataset remain the property of the hexfolio archive.
+                interpretation and curated dataset remain the property of the PaletteSnap archive.
               </p>
             </div>
 
@@ -77,7 +77,7 @@ export default function License() {
                 <h2 className="text-xs uppercase tracking-[0.3em] font-bold text-black mb-2">
                   Disclaimer
                 </h2>
-                <p className="text-zinc-600 text-[12px] leading-relaxed">
+              <p className="text-zinc-600 text-[12px] leading-relaxed">
                   Colors may vary across different digital displays. This archive provides the
                   closest digital hex-code approximations to the original printed ink samples from
                   1933.
@@ -87,7 +87,8 @@ export default function License() {
               {/* stamp */}
               <div className="w-24 h-24 border-2 border-zinc-500 rounded-full flex items-center justify-center rotate-12 opacity-50">
                 <span className="text-[10px] text-center uppercase tracking-tighter font-bold text-white">
-hexfolio                  <br />
+                  PaletteSnap
+                  <br />
                   Official
                   <br />
                   2026
