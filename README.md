@@ -23,6 +23,7 @@ Built for archival precision, monumental typography, and minimalist immersion �
 <a href="https://github.com/byllzz/palettesnap/pulls">
 <img src="https://img.shields.io/badge/PRs-Accepted-9B72FF.svg?style=flat" />
 </a>
+
 </p>
 <br />
 
@@ -31,6 +32,14 @@ Built for archival precision, monumental typography, and minimalist immersion �
 <img width="100%" alt="PaletteSnap Preview" src="./src/assets/preview.png" />
 
 ⭐ **Star the repo if you appreciate the aesthetic — it really helps!**
+
+
+
+<p align="center">
+  <img src="https://img.shields.io/github/stars/byllzz/palettesnap?style=social" />
+  <img src="https://img.shields.io/github/forks/byllzz/palettesnap?style=social" />
+  <img src="https://img.shields.io/github/watchers/byllzz/palettesnap?style=social" />
+</p>
 
 ---
 
@@ -234,12 +243,11 @@ PaletteSnap is currently being migrated to TypeScript for improved type safety a
 
 ## Migration Status
 
-- ✅ TypeScript dependencies installed
-- ✅ ESLint configured for TypeScript
-- ✅ `tsconfig.json` configured
-- ✅ Main entry files converted (`main.tsx`, `App.tsx`)
-- 🔄 Component conversion in progress
-- 📝 Type definitions being added
+- TypeScript dependencies installed
+-  ESLint configured for TypeScript
+-  `tsconfig.json` configured
+-  Main entry files converted (`main.tsx`, `App.tsx`)
+-  Component conversion is complete
 
 ---
 
@@ -304,31 +312,6 @@ Use the Issue Tracker to report bugs.
 
 ---
 
-# Roadmap
-
-## Phase 1 (Current)
-
-- Complete TypeScript setup
-- Convert main app files
-- Convert all components to TypeScript
-- Add comprehensive type definitions
-
-## Phase 2 (Planned)
-
-- Add unit tests with Vitest
-- Implement PWA support
-- Add dark/light theme toggle
-- Improve accessibility scores
-
-## Phase 3 (Future)
-
-- User accounts and saved palettes
-- Color palette generator
-- API for external applications
-- Mobile app with React Native
-
----
-
 # License
 
 This project is licensed under the MIT License. See the `LICENSE` file for details.
@@ -360,38 +343,6 @@ If you like this project, please ⭐ star the repository. Developers survive on 
 
 ---
 
-# Badges
 
-<p align="center">
-  <img src="https://img.shields.io/github/stars/byllzz/palettesnap?style=social" />
-  <img src="https://img.shields.io/github/forks/byllzz/palettesnap?style=social" />
-  <img src="https://img.shields.io/github/watchers/byllzz/palettesnap?style=social" />
-</p>
 
----
 
-# Key Updates Made
-
-- Renamed **"Hexfolio" → "PaletteSnap"** throughout the document
-- Added TypeScript badges to show migration status
-- Added comprehensive folder structure with detailed tree view
-
-## New Sections Added
-
-- Table of Contents
-- Technologies Used
-- TypeScript Migration (with status checklist)
-- Contributing Guidelines
-- Roadmap (3 phases)
-- Acknowledgments
-
-## Enhanced Existing Sections
-
-- Added more feature details
-- Improved installation instructions
-- Added environment variables setup
-- Added build and preview commands
-- Added social badges at the bottom (stars, forks, watchers)
-- Added PRs Accepted badge for open-source contributions
-- Added Issues Welcome badge
-- Improved formatting with better organization
