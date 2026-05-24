@@ -1,12 +1,24 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Check, Copy, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-export default function SingleColorCard({ item }) {
-  const [copied, setCopied] = useState(false);
+interface ColorItem {
+  id: number;
+  name: string;
+  hex: string;
+  kanji: string;
+  [key: string]: any;
+}
+
+interface SingleColorCardProps {
+  item: ColorItem;
+}
+
+export default function SingleColorCard({ item }: SingleColorCardProps) {
+  const [copied, setCopied] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  const handleCopy = (e) => {
+  const handleCopy = (e: React.MouseEvent) => {
     e.stopPropagation();
     navigator.clipboard.writeText(item.hex);
     setCopied(true);

@@ -1,24 +1,36 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export default function PlateCard({ plate }) {
+interface Plate {
+  id: string;
+  title: string;
+  colors: string[];
+  weights: number[];
+  names: string[];
+  kanji: string;
+}
 
-  const navigate= useNavigate();
+interface PlateCardProps {
+  plate: Plate;
+}
+
+export default function PlateCard({ plate }: PlateCardProps) {
+  const navigate = useNavigate();
 
   const handleNavigate = () => {
-    navigate('/plateDetails' , {state: {plate : plate}} )
-  }
+    navigate('/plateDetails', { state: { plate: plate } });
+  };
+
   return (
     <div className="group relative bg-[#0f0f0f] border border-zinc-900 p-4 rounded-sm hover:border-zinc-700 transition-all duration-500">
 
-      {/*  The Color "Chord" Display */}
+      {/* The Color "Chord" Display */}
       <div className="flex h-64 w-full overflow-hidden rounded-sm cursor-pointer shadow-2xl" onClick={handleNavigate}>
         {plate.colors.map((color, index) => (
           <div
             key={index}
             style={{
               backgroundColor: color,
-              flex: plate.weights[index] // Uses the weight
+              flex: plate.weights[index]
             }}
             className="h-full transition-transform duration-700 hover:scale-[1.05] relative group/color"
           >
@@ -30,7 +42,7 @@ export default function PlateCard({ plate }) {
         ))}
       </div>
 
-      {/*Card Details */}
+      {/* Card Details */}
       <div className="mt-6 flex justify-between items-start">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
@@ -56,7 +68,7 @@ export default function PlateCard({ plate }) {
         </div>
       </div>
 
-      {/*  "Red Seal" Hover Element */}
+      {/* "Red Seal" Hover Element */}
       <div className="absolute top-0 right-0 w-0 h-0 border-t-[30px] border-t-transparent border-r-[30px] border-r-transparent group-hover:border-r-[#b91c1c] transition-all duration-500 opacity-20"></div>
     </div>
   );

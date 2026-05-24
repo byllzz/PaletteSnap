@@ -1,12 +1,25 @@
-import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Share2 } from 'lucide-react';
 import ColorNotFound from './ColorNotFound';
 
+interface Plate {
+  id: string;
+  title: string;
+  colors: string[];
+  names: string[];
+  weights: number[];
+  kanji: string;
+  tags: string[];
+}
+
+interface LocationState {
+  plate: Plate;
+}
+
 export default function PlateDetails() {
   const location = useLocation();
   const navigate = useNavigate();
-  const plate = location.state?.plate;
+  const plate = (location.state as LocationState)?.plate;
 
   if (!plate) return <ColorNotFound />;
 
@@ -25,7 +38,7 @@ export default function PlateDetails() {
         <span className="text-white font-serif italic text-xl">Plate No. {plate.id}</span>
       </div>
 
-      {/*  hero */}
+      {/* hero */}
       <div className="flex h-[70vh] w-full pt-24 px-4 gap-1">
         {plate.colors.map((hex, index) => (
           <div
@@ -43,7 +56,7 @@ export default function PlateDetails() {
         ))}
       </div>
 
-      {/*  Narrative & Plate Data */}
+      {/* Narrative & Plate Data */}
       <div className="px-8 md:px-20 py-24 flex flex-col md:flex-row justify-between gap-20">
         <div className="max-w-2xl">
           <p className="font-mono text-[10px] text-white uppercase tracking-[0.5em] mb-6">Plate Composition</p>

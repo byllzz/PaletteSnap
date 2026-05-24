@@ -1,6 +1,14 @@
-import React from 'react';
+interface InlineChipProps {
+  swatches: string[];
+  label: string;
+}
 
-const TILES = [
+interface HeroProps {
+  filteredColors: any[];
+  filteredPlates: any[];
+}
+
+const TILES: Array<{ c: string; n: string }> = [
   {c:'#8B2635',n:'Akane'},{c:'#C84B31',n:'Shu'},{c:'#E2FF46',n:'Hanada'},
   {c:'#1D3557',n:'Kon'},{c:'#2E9CCA',n:'Asagi'},{c:'#2D5016',n:'Matcha'},
   {c:'#C8A96E',n:'Kincha'},{c:'#8154F0',n:'Fuji'},{c:'#FF5C2B',n:'Hiiro'},
@@ -8,18 +16,19 @@ const TILES = [
   {c:'#DD6E42',n:'Tochi'},{c:'#0a0a0a',n:'Kuro'},{c:'#6B8C3A',n:'Wakaba'},
 ];
 
-const MQ_WORDS = ['Japanese Tradition','Wada Sanzo',` 108 Colors`,'Export Ready','High Contrast','Edo Period','Color Science','Visual Identity'];
+const MQ_WORDS: string[] = ['Japanese Tradition','Wada Sanzo',`108 Colors`,'Export Ready','High Contrast','Edo Period','Color Science','Visual Identity'];
 
-const InlineChip = ({ swatches, label }) => (
+const InlineChip = ({ swatches, label }: InlineChipProps) => (
   <span className="inline-flex items-center rounded-full overflow-hidden border border-white/10 shrink-0 h-[clamp(44px,6vw,80px)] cursor-pointer hover:scale-105 transition-transform" style={{background:'#111'}}>
-    {swatches.map(c => <span key={c} className="h-full w-[clamp(24px,3.5vw,48px)]" style={{background:c}} />)}
+    {swatches.map((c: string) => <span key={c} className="h-full w-[clamp(24px,3.5vw,48px)]" style={{background:c}} />)}
     <span className="px-4 text-[clamp(9px,1.1vw,13px)] uppercase tracking-widest font-semibold text-white/55 whitespace-nowrap font-outfit">{label}</span>
   </span>
 );
 
-export default function Hero({filteredColors, filteredPlates,}) {
+export default function Hero({ filteredColors, filteredPlates }: HeroProps) {
   const colorCards = filteredColors.length;
   const platesCards = filteredPlates.length;
+
   return (
     <section className="bg-[#080808] text-[#f0ede8] font-outfit overflow-hidden min-h-screen flex flex-col">
       <style>{`
@@ -37,7 +46,7 @@ export default function Hero({filteredColors, filteredPlates,}) {
         <div className="px-8 pt-30 md:pt-25 pb-0">
           {/* Line 1 */}
           <div className="flex flex-wrap items-center gap-3 md:gap-4 font-playfair font-black leading-[.92] tracking-tight text-[clamp(44px,8.5vw,116px)]">
-            <span>486</span>
+            <span>281</span>
             <InlineChip swatches={['#8B2635', '#C84B31', '#E2FF46']} label="Curated" />
             <span className="italic text-[#d4f53c]">colors</span>
           </div>

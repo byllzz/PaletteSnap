@@ -1,4 +1,3 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MoveLeft, Wind } from 'lucide-react';
 
@@ -8,7 +7,7 @@ export default function ColorNotFound() {
   return (
     <div className="h-screen w-full flex flex-col items-center justify-center px-6 overflow-hidden relative">
 
-      {/*  Abstract Background Element */}
+      {/* Abstract Background Element */}
       <div className="absolute inset-0 flex items-center justify-center opacity-20 pointer-events-none">
         <h1 className="text-[30vw] font-serif italic text-zinc-900 leading-none select-none">
           Null
@@ -35,7 +34,7 @@ export default function ColorNotFound() {
           The color combination you are seeking does not exist in the Wada Sanzō collection, or it has faded with time.
         </p>
 
-        {/*  Navigation Actions */}
+        {/* Navigation Actions */}
         <div className="flex flex-col md:flex-row items-center justify-center gap-8">
           <button
             onClick={() => navigate('/')}

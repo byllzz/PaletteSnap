@@ -1,6 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
-const faqData = [
+interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+const faqData: FaqItem[] = [
   {
     question: "Who was Wada Sanzō?",
     answer: "Wada Sanzō (1883–1967) was a visionary Japanese artist and teacher. He was a pioneer in modern Japanese color theory and won an Academy Award for his costume design in the 1954 film 'Gate of Hell' (地獄門)."
@@ -20,7 +25,7 @@ const faqData = [
 ];
 
 export default function Faqs() {
-  const [activeIndex, setActiveIndex] = useState(null);
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   return (
     <section className="relative text-white bg-black pt-32 pb-40 px-6 md:px-24 overflow-hidden ">
@@ -36,7 +41,7 @@ export default function Faqs() {
           }}
         >
           質問
-        </h1> {/* 質問 means 'Question' in Japanese */}
+        </h1>
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto">
@@ -106,7 +111,7 @@ export default function Faqs() {
         {/* Bottom */}
         <div className="mt-40 pt-20 border-t border-zinc-900 text-center">
             <p className="text-zinc-600 text-xs uppercase tracking-[0.3em] mb-4">Still seeking answers?</p>
-            <a href="mailto:hello@hexfolio.com" className="font-fair text-3xl text-white hover:text-zinc-400 transition-colors border-b border-zinc-800 pb-2">
+            <a href="mailto:hello@palettesnap.com" className="font-fair text-3xl text-white hover:text-zinc-400 transition-colors border-b border-zinc-800 pb-2">
               Reach the Archive
             </a>
         </div>
