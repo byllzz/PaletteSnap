@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Home from './pages/Home'
 import About from './pages/About'
@@ -12,7 +12,6 @@ import Faqs from './components/layout/Faqs'
 import PlateDetails from './pages/PlateDetails'
 import ScrollToTop from './components/layout/ScrollToTop'
 
-// Animated Loading Spinner
 function LoadingSpinner() {
   return (
     <motion.div
@@ -44,18 +43,37 @@ function LoadingSpinner() {
   )
 }
 
-// Wrapper component to handle route changes
 function AppRoutes() {
   const location = useLocation()
   const [isLoading, setIsLoading] = useState(false)
+  const [isFirstLoad, setIsFirstLoad] = useState(true)
+  const previousPath = useRef(location.pathname)
 
   useEffect(() => {
-    setIsLoading(true)
-    const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 800)
-    return () => clearTimeout(timer)
-  }, [location])
+    // Skip on first load - let Preloader handle it
+    if (isFirstLoad) {
+      setIsFirstLoad(false)
+      previousPath.current = location.pathname
+      return
+    }
+
+    // Only show spinner if actually navigating to a different page
+    if (previousPath.current !== location.pathname) {
+      // Don't show spinner when navigating TO homepage (Preloader handles it)
+      if (location.pathname === '/') {
+        previousPath.current = location.pathname
+        return
+      }
+
+      setIsLoading(true)
+      const timer = setTimeout(() => {
+        setIsLoading(false)
+      }, 500)
+
+      previousPath.current = location.pathname
+      return () => clearTimeout(timer)
+    }
+  }, [location, isFirstLoad])
 
   return (
     <>
@@ -63,9 +81,9 @@ function AppRoutes() {
         {isLoading && <LoadingSpinner />}
       </AnimatePresence>
       <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: isLoading ? 0 : 1, y: isLoading ? 10 : 0 }}
-        transition={{ duration: 0.4, ease: "easeOut" }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: isLoading ? 0 : 1 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
       >
         <Routes>
           <Route path="/" element={<Home />} />
