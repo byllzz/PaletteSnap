@@ -1,0 +1,73 @@
+export default function PrivacyPolicy() {
+  return (
+    <div className="max-w-2xl mx-auto py-12">
+      <h1
+        className="text-[36px] mb-2 text-zinc-900"
+        style={{ fontFamily: "'Instrument Serif', serif" }}
+      >
+        <em className="not-italic italic">Privacy policy</em>
+      </h1>
+      <p className="text-zinc-400 text-[13px] mb-10">
+        Last updated August 2026
+      </p>
+
+      <div className="space-y-7 text-[14.5px] leading-relaxed text-zinc-700">
+        <section>
+          <h2 className="text-[13px] font-semibold tracking-[0.02em] text-zinc-900 mb-2 uppercase">
+            What we store
+          </h2>
+          <p>
+            palettesnap does not require an account, so we don't collect names,
+            emails, or passwords. When you like a palette, a random identifier
+            is generated and stored in your browser's local storage. That
+            identifier is sent to our database so your likes and collection
+            persist across visits on the same browser. It isn't linked to any
+            personal information and we have no way of connecting it back to
+            you.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-[13px] font-semibold tracking-[0.02em] text-zinc-900 mb-2 uppercase">
+            Palettes you publish
+          </h2>
+          <p>
+            Any palette you create, including its colors and tags, is stored
+            permanently and shown publicly to all visitors. Don't include
+            anything in a tag or palette you wouldn't want public — there's
+            currently no way to delete a published palette yourself.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-[13px] font-semibold tracking-[0.02em] text-zinc-900 mb-2 uppercase">
+            Third parties
+          </h2>
+          <p>
+            Palette and like data is hosted on Supabase. We don't sell data, run
+            ads, or share anything with advertising or analytics networks.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-[13px] font-semibold tracking-[0.02em] text-zinc-900 mb-2 uppercase">
+            Clearing your data
+          </h2>
+          <p>
+            Clearing your browser's site data for palettesnap removes your local
+            device identifier. Your future likes will start fresh, and any
+            palettes you'd previously liked will no longer show as liked in your
+            collection.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-[13px] font-semibold tracking-[0.02em] text-zinc-900 mb-2 uppercase">
+            Contact
+          </h2>
+          <p>Questions about this policy can be sent through Instagram.</p>
+        </section>
+      </div>
+    </div>
+  );
+}

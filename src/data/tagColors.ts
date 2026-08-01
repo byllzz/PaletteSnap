@@ -1,0 +1,16 @@
+export const TAG_COLORS: Record<string, string> = {
+  pastel: "#F6C9D8",
+  vintage: "#C9A66B",
+  retro: "#E2843B",
+  neon: "#D6FF3F",
+  gold: "#D4AF37",
+  light: "#F5F5F0",
+  dark: "#26262E",
+  warm: "#E4572E",
+  cold: "#4C86A8",
+  summer: "#FFD23F",
+  fall: "#B5651D",
+  winter: "#7FA6C9",
+  spring: "#8FBF6A",
+  happy: "#FFB84C",
+};

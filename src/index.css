@@ -1,0 +1,17 @@
+
+
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap');
+
+@keyframes progress {
+  0% { width: 0%; }
+  100% { width: 100%; }
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  scrollbar-width: none;
+}
+::-webkit-scrollbar {
+  display: none;
+}
