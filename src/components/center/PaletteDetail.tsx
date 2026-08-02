@@ -7,6 +7,9 @@ import ExportModal from "../modals/ExportModal";
 
 export default function PaletteDetail({ id }: { id: string }) {
   const [hoveredHex, setHoveredHex] = useState<string | null>(null);
+  const [relatedPaletteHex, SetrelatedPaletteHex] = useState<string | null>(
+    null,
+  );
   const [copiedHex, setCopiedHex] = useState<string | null>(null);
   const [isExportOpen, setIsExportOpen] = useState(false);
 
@@ -46,27 +49,33 @@ export default function PaletteDetail({ id }: { id: string }) {
 
   return (
     <div className="flex flex-col items-center py-6">
-      <div className="w-full max-w-3xl h-[420px] rounded-xl overflow-hidden flex flex-col border border-zinc-200 mb-4">
+      <div className="w-full max-w-[400px] h-[390px] rounded-xl overflow-hidden flex flex-col border border-zinc-200 mb-4">
         {palette.colors.map((color, i) => (
           <div
             key={i}
-            className="flex-1 relative"
+            //  the 2:1.3:1:1 ratio exactly like PaletteCard
+            className={`${
+              i === 0 ? "flex-[2]" : i === 1 ? "flex-[1.3]" : "flex-1"
+            } relative`}
             style={{ backgroundColor: color }}
             onMouseEnter={() => setHoveredHex(color)}
             onMouseLeave={() => setHoveredHex(null)}
           >
             {hoveredHex === color && (
               <div
-                className="absolute bottom-4 left-4 bg-black/75 backdrop-blur-sm text-white px-3.5 py-2 rounded-lg text-xs font-mono tracking-wide cursor-pointer hover:bg-black flex items-center gap-2.5 transition-colors z-10"
+                className="absolute bottom-0 left-0 bg-black/75 backdrop-blur-sm text-white px-3.5 py-2 rounded-tr-[10px] text-xs  tracking-wide cursor-pointer hover:bg-black flex items-center gap-2.5 transition-colors z-10"
                 onClick={(e) => {
                   e.stopPropagation();
                   handleCopy(color);
                 }}
                 title="Click to copy"
               >
-                <span className="font-semibold">{color.toUpperCase()}</span>
-                <span className="text-[10px] text-white/60">
-                  {copiedHex === color ? "Copied" : "Click to copy"}
+                <span className="text-[12px]">
+                  {copiedHex === color ? (
+                    <span>Copied ✓</span>
+                  ) : (
+                    <span>{color.toUpperCase()}</span>
+                  )}
                 </span>
               </div>
             )}
@@ -74,11 +83,11 @@ export default function PaletteDetail({ id }: { id: string }) {
         ))}
       </div>
 
-      <div className="w-full max-w-3xl flex items-center justify-between mb-8">
+      <div className="w-full max-w-[400px] flex items-center justify-between mb-8">
         <div className="flex gap-2">
           <button
             onClick={() => toggleLike(id)}
-            className="flex items-center gap-2 px-3.5 py-2 border border-zinc-200 rounded-lg text-[13px] hover:bg-zinc-50 hover:border-zinc-300 transition-colors"
+            className="flex items-center gap-2 px-3.5 py-2 border border-zinc-200 rounded-lg text-[13px] hover:bg-zinc-100 hover:border-zinc-300 transition-colors"
           >
             <HeartIcon filled={palette.isLiked} size={16} />
             <span className="font-medium text-zinc-700">{palette.likes}</span>
@@ -86,14 +95,14 @@ export default function PaletteDetail({ id }: { id: string }) {
 
           <button
             onClick={() => setIsExportOpen(true)}
-            className="flex items-center gap-2 px-3.5 py-2 border border-zinc-200 rounded-lg text-[13px] text-zinc-700 hover:bg-zinc-50 hover:border-zinc-300 transition-colors"
+            className="flex items-center gap-2 px-3.5 py-2 border border-zinc-200 rounded-lg text-[13px] text-zinc-700 hover:bg-zinc-100 hover:border-zinc-300 transition-colors"
           >
             <ImageIcon /> Image
           </button>
 
           <button
             onClick={handleCopyLink}
-            className="flex items-center gap-2 px-3.5 py-2 border border-zinc-200 rounded-lg text-[13px] text-zinc-700 hover:bg-zinc-50 hover:border-zinc-300 transition-colors"
+            className="flex items-center gap-2 px-3.5 py-2 border border-zinc-200 rounded-lg text-[13px] text-zinc-700 hover:bg-zinc-100 hover:border-zinc-300 transition-colors"
           >
             <LinkIcon /> Link
           </button>
@@ -122,7 +131,7 @@ export default function PaletteDetail({ id }: { id: string }) {
               </span>
               {copiedHex === c && (
                 <span className="text-[10px] text-emerald-600 font-medium">
-                  Copied
+                  Copied ✓
                 </span>
               )}
             </div>
@@ -181,29 +190,64 @@ export default function PaletteDetail({ id }: { id: string }) {
                   palette.tags[0].slice(1)}
             </em>
           </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {relatedPalettes.map((p) => (
               <div
                 key={p.id}
                 onClick={() => selectPalette(p.id)}
                 className="cursor-pointer group"
               >
-                <div className="h-28 rounded-lg overflow-hidden flex flex-col mb-2 border border-zinc-200/70 group-hover:border-zinc-300 transition-colors">
+                <div className="h-70 rounded-lg overflow-hidden flex flex-col mb-2 border border-zinc-200/70 group-hover:border-zinc-300 transition-colors">
                   {p.colors.map((c, i) => (
                     <div
                       key={i}
-                      className="flex-1"
+                      className={`flex relative ${
+                        i === 0 ? "flex-[2]" : i === 1 ? "flex-[1.3]" : "flex-1"
+                      }`}
                       style={{ backgroundColor: c }}
-                    />
+                      onMouseEnter={() => SetrelatedPaletteHex(c)}
+                      onMouseLeave={() => SetrelatedPaletteHex(null)}
+                    >
+                      {relatedPaletteHex === c && (
+                        <div
+                          className="absolute bottom-0 left-0 bg-black/75 backdrop-blur-sm text-white px-3.5 py-2 rounded-tr-[10px] text-xs tracking-wide cursor-pointer hover:bg-black flex items-center gap-2.5 transition-colors z-10"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleCopy(c);
+                          }}
+                          title="Click to copy"
+                        >
+                          <span className="text-[12px]">
+                            {copiedHex === c ? (
+                              <span>Copied ✓</span>
+                            ) : (
+                              <span>{c.toUpperCase()}</span>
+                            )}
+                          </span>
+                        </div>
+                      )}
+                    </div>
                   ))}
                 </div>
-                <div className="flex justify-center items-center gap-1.5">
-                  <HeartIcon
-                    size={13}
-                    filled={p.isLiked}
-                    className="text-zinc-400"
-                  />
-                  <span className="text-[12px] text-zinc-500">{p.likes}</span>
+
+                <div className="flex justify-between items-center p-1 gap-1.5">
+                  {/* Made the heart button clickable and interactive */}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleLike(p.id);
+                    }}
+                    className="flex items-center gap-0.5 px-2 py-0.5  active:scale-98 transition-all duration-100 rounded-full hover:bg-zinc-100 transition-colors"
+                  >
+                    <HeartIcon
+                      size={13}
+                      filled={p.isLiked}
+                      className={`${p.isLiked ? "text-black" : "text-zinc-400"}`}
+                    />
+                    <span className="text-[12px] text-zinc-500">{p.likes}</span>
+                  </button>
+
+                  <span className="text-[12.5px] text-zinc-400">{p.date}</span>
                 </div>
               </div>
             ))}

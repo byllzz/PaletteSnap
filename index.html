@@ -1,60 +1,47 @@
 <!doctype html>
-<html lang="en" class="dark">
+<html lang="en">
   <!--
-██████╗ ██╗██╗      █████╗ ██╗
-██╔══██╗██║██║     ██╔══██╗██║
-██████╔╝██║██║     ███████║██║
-██╔══██╗██║██║     ██╔══██║██║
-██████╔╝██║███████╗██║  ██║███████╗
-╚═════╝ ╚═╝╚══════╝╚═╝  ╚═╝╚══════╝
-███╗   ███╗ █████╗ ██╗     ██╗██╗  ██╗
-████╗ ████║██╔══██╗██║     ██║██║ ██╔╝
-██╔████╔██║███████║██║     ██║█████╔╝
-██║╚██╔╝██║██╔══██║██║     ██║██╔═██╗
-██║ ╚═╝ ██║██║  ██║███████╗██║██║  ██╗
-╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝╚═╝╚═╝  ╚═╝
-What are you doing here?! you sneaky developer...
--->
+  ██████╗ ██╗██╗      █████╗ ██╗
+  ██╔══██╗██║██║     ██╔══██╗██║
+  ██████╔╝██║██║     ███████║██║
+  ██╔══██╗██║██║     ██╔══██║██║
+  ██████╔╝██║███████╗██║  ██║███████╗
+  ╚═════╝ ╚═╝╚══════╝╚═╝  ╚═╝╚══════╝
+  ███╗   ███╗ █████╗ ██╗     ██╗██╗  ██╗
+  ████╗ ████║██╔══██╗██║     ██║██║ ██╔╝
+  ██╔████╔██║███████║██║     ██║█████╔╝
+  ██║╚██╔╝██║██╔══██║██║     ██║██╔═██╗
+  ██║ ╚═╝ ██║██║  ██║███████╗██║██║  ██╗
+  ╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝╚═╝╚═╝  ╚═╝
+  What are you doing here?! you sneaky developer...
+  -->
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-  <title>PaletteSnap - The Dictionary of Color Combinations</title>
-  <meta name="title" content="PaletteSnap — The Dictionary of Color Combinations" />
+  <title>PaletteSnap - Create & Discover Color Palettes</title>
+  <meta name="title" content="PaletteSnap — Create & Discover Color Palettes" />
   <meta name="description"
-    content="An interactive digital archive of Wada Sanzō's seminal 1930s color studies. Explore traditional Japanese pigments and historical color harmonies." />
-  <meta name="theme-color" content="#000000" />
+    content="An interactive tool to browse, save, and publish beautiful four-color palettes. Explore traditional and modern color combinations. No account required." />
+  <meta name="theme-color" content="#FFFFFF" />
 
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://palettesnap.vercel.app/" />
-  <meta property="og:title" content="PaletteSnap — Color Combinations" />
-  <meta property="og:description"
-    content="Explore the historical color palettes of 1930s Japan in a high-end digital format." />
-  <meta property="og:image" content="/og-image.jpg" />
-
-  <meta property="twitter:card" content="summary_large_image" />
-  <meta property="twitter:url" content="https://palettesnap.vercel.app/" />
-  <meta property="twitter:title" content="PaletteSnap — The Dictionary of Color Combinations" />
-  <meta property="twitter:description" content="A digital tribute to traditional Japanese color theory." />
-  <meta property="twitter:image" content="/og-image.jpg" />
-
-  <link rel="shortcut icon" href="./src/assets/favicon/favicon.svg" type="image/x-icon">
+  <!-- Load Instrument Serif for brand typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 
-  <link rel="preload" as="style"
-    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
-    rel="stylesheet" media="print" onload="this.media='all'">
-  <noscript>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
-      rel="stylesheet">
-  </noscript>
-  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <!-- Fallback Preload -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap">
+
+  <link rel="shortcut icon" href="./favicon.svg" type="image/x-icon">
 </head>
 
-<body class="bg-black antialiased selection:bg-white selection:text-black">
+<body class="bg-white antialiased selection:bg-zinc-800 selection:text-white">
   <div id="root"></div>
   <script type="module" src="/src/main.tsx"></script>
   <div id="announcer" aria-live="polite" class="sr-only"></div>
 </body>
+
 </html>
+
+

@@ -1,6 +1,11 @@
+import { Instagram, Github, Twitter, Mail, Palette } from "lucide-react";
+import { useStore } from "../../store/useStore";
+
 export default function PrivacyPolicy() {
+  const { setView } = useStore();
+
   return (
-    <div className="max-w-2xl mx-auto py-12">
+    <div className="max-w-2xl mx-auto py-12 px-4 md:px-0">
       <h1
         className="text-[36px] mb-2 text-zinc-900"
         style={{ fontFamily: "'Instrument Serif', serif" }}
@@ -65,7 +70,61 @@ export default function PrivacyPolicy() {
           <h2 className="text-[13px] font-semibold tracking-[0.02em] text-zinc-900 mb-2 uppercase">
             Contact
           </h2>
-          <p>Questions about this policy can be sent through Instagram.</p>
+          <p>
+            Questions about this policy can be sent through the links below.
+          </p>
+        </section>
+
+        {/* CONNECT SECTION */}
+        <section className="pt-4 border-t border-zinc-200">
+          <h2 className="text-[13px] font-semibold tracking-[0.02em] text-zinc-900 mb-4 uppercase">
+            Connect
+          </h2>
+          <div className="flex flex-wrap gap-3">
+            <a
+              href="https://www.instagram.com/bilalmlkdev/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-4 py-2 border border-zinc-200 rounded-full text-[13px] font-medium text-zinc-700 hover:bg-zinc-50 hover:border-zinc-300 transition-colors"
+            >
+              <Instagram size={15} />
+              Instagram
+            </a>
+            <a
+              href="https://github.com/byllzz/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-4 py-2 border border-zinc-200 rounded-full text-[13px] font-medium text-zinc-700 hover:bg-zinc-50 hover:border-zinc-300 transition-colors"
+            >
+              <Github size={15} />
+              GitHub
+            </a>
+            <a
+              href="https://twitter.com/bilalmlkdev/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-4 py-2 border border-zinc-200 rounded-full text-[13px] font-medium text-zinc-700 hover:bg-zinc-50 hover:border-zinc-300 transition-colors"
+            >
+              <Twitter size={15} />
+              Twitter / X
+            </a>
+            <a
+              href="mailto:bilalmlkdev@email.com"
+              className="flex items-center gap-2 px-4 py-2 border border-zinc-200 rounded-full text-[13px] font-medium text-zinc-700 hover:bg-zinc-50 hover:border-zinc-300 transition-colors"
+            >
+              <Mail size={15} />
+              Email
+            </a>
+
+            {/* GO BACK TO APP LINK */}
+            <button
+              onClick={() => setView("new")}
+              className="flex items-center gap-2 px-4 py-2 border border-zinc-900 rounded-full text-[13px] font-medium text-zinc-900 hover:bg-zinc-900 hover:text-white transition-colors"
+            >
+              <Palette size={15} />
+              Explore the app
+            </button>
+          </div>
         </section>
       </div>
     </div>

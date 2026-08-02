@@ -20,19 +20,19 @@ export interface Palette {
   isUserCreated?: boolean;
 }
 
-
-  type View =
-    | "new"
-    | "popular"
-    | "random"
-    | "collection"
-    | "creations"
-    | "detail"
-    | "create"
-    | "tagged"
-    | "about"
-    | "terms"
-    | "privacy";
+type View =
+  | "new"
+  | "popular"
+  | "random"
+  | "collection"
+  | "creations"
+  | "detail"
+  | "create"
+  | "tagged"
+  | "about"
+  | "terms"
+  | "privacy"
+  | "notFound";
 
 export interface AppState {
   currentView: View;
@@ -50,6 +50,7 @@ export interface AppState {
   setView: (view: View) => void;
   toggleActiveTag: (tag: string) => void;
   setActiveTags: (tags: string[]) => void;
+  _syncActiveTagsFromURL: (tags: string[]) => void;
   setSearchText: (text: string) => void;
   toggleFilter: (filter: FilterItem) => void;
   clearFilters: () => void;
@@ -58,7 +59,7 @@ export interface AppState {
   setSelectedFilters: (filters: FilterItem[]) => void;
   setHydrated: (hydrated: boolean) => void;
   addPalette: (palette: Palette) => void;
-  fetchPalettes: () => Promise<void>; //  pulls from Supabase
+  fetchPalettes: () => Promise<void>;
 
   getLikedPalettes: () => Palette[];
   getCurrentPalettes: () => Palette[];
@@ -72,7 +73,6 @@ export const useStore = create<AppState>((set, get) => {
     const token = ++(get()._loadingToken as number);
     set({ isLoading: true });
     setTimeout(() => {
-      // Only apply if a newer action hasn't started in the meantime
       if (get()._loadingToken === token) {
         set({ ...mutate(), isLoading: false });
       }
@@ -92,10 +92,7 @@ export const useStore = create<AppState>((set, get) => {
     isHydrated: false,
     _loadingToken: 0,
 
-    // loads all palettes + this device's likes from Supabase.
-    // Called once on app boot (see App.tsx change below).
     fetchPalettes: async () => {
-
       const [
         { data: paletteRows, error: pErr },
         { data: likeRows, error: lErr },
@@ -104,13 +101,12 @@ export const useStore = create<AppState>((set, get) => {
           .from("palettes")
           .select("*")
           .order("created_at", { ascending: false })
-          .order("id", { ascending: true }), // 🟢 FIX: tiebreaker so order is deterministic
+          .order("id", { ascending: true }),
         supabase.from("likes").select("palette_id").eq("device_id", deviceId),
       ]);
 
       if (pErr || lErr) {
         console.error("Failed to load palettes/likes:", pErr || lErr);
-        // Fallback so the app isn't blank if Supabase is unreachable
         set({ palettes: MOCK_PALETTES, isHydrated: true });
         return;
       }
@@ -167,6 +163,8 @@ export const useStore = create<AppState>((set, get) => {
       }));
     },
 
+    // Used when the USER picks a tag (sidebar/search)
+    // changes the view too.
     setActiveTags: (tags) => {
       withLoader(() => ({
         activeTags: tags,
@@ -174,6 +172,15 @@ export const useStore = create<AppState>((set, get) => {
         selectedPaletteId: null,
       }));
     },
+
+    //  used only by URL - Store sync. Updates activeTags without
+    // touching currentView or selectedPaletteId - the URL sync effect
+    // already decides the correct view from the actual path segments,
+    // so this must not override that decision (this was the bug: the
+    // old code reused setActiveTags here, which force-reset currentView
+    // to "new" and nulled selectedPaletteId right after selectPalette
+    // had just set them correctly).
+    _syncActiveTagsFromURL: (tags) => set({ activeTags: tags }),
 
     setSearchText: (text) => {
       withLoader(() => ({ searchText: text, selectedPaletteId: null }));
@@ -205,15 +212,13 @@ export const useStore = create<AppState>((set, get) => {
     },
 
     setHydrated: (hydrated) => set({ isHydrated: hydrated }),
-    // Updates local state immediately so it feels instant, then
-    // syncs to the DB. If the DB call fails, we roll back.
+
     toggleLike: (id) => {
       const state = get();
       const isCurrentlyLiked = state.likedPaletteIds.has(id);
       const paletteIndex = state.palettes.findIndex((p) => p.id === id);
       if (paletteIndex === -1) return;
 
-      // Optimistic local update
       const newSet = new Set(state.likedPaletteIds);
       const updatedPalettes = [...state.palettes];
       const target = updatedPalettes[paletteIndex];
@@ -236,7 +241,6 @@ export const useStore = create<AppState>((set, get) => {
 
       set({ likedPaletteIds: newSet, palettes: updatedPalettes });
 
-      // Fire-and-sync to Supabase
       (async () => {
         if (isCurrentlyLiked) {
           await supabase
@@ -260,8 +264,6 @@ export const useStore = create<AppState>((set, get) => {
       })();
     },
 
-    // inserts into Supabase so it's visible to everyone,
-    // not just this browser.
     addPalette: (newPalette: Palette) => {
       set((state) => ({
         palettes: [{ ...newPalette, isUserCreated: true }, ...state.palettes],
@@ -350,7 +352,6 @@ export const useStore = create<AppState>((set, get) => {
   };
 });
 
-// converts a DB timestamp into your existing relative-date format
 function formatDate(isoString: string): string {
   const now = new Date();
   const date = new Date(isoString);

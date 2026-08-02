@@ -72,9 +72,9 @@ export default function SearchBar() {
   return (
     <div className="relative w-full" ref={wrapperRef}>
       <div
-        className={`flex items-center flex-wrap gap-2 px-3.5 py-1.5 bg-white border rounded-full transition-all min-h-[42px] ${
+        className={`flex items-center flex-wrap gap-2 px-3.5 py-1.5 bg-white border rounded-full transition-all min-h-[38px] ${
           isFocused
-            ? "border-zinc-300 shadow-[0_1px_2px_rgba(0,0,0,0.04)]"
+            ? "border-zinc-300 "
             : "border-zinc-200"
         }`}
         onClick={() => setIsFocused(true)}
@@ -140,7 +140,7 @@ export default function SearchBar() {
 
       {isFocused && (inputValue === "" ? true : hasMatches) && (
         <div
-          className="absolute left-0 top-full mt-2 w-full bg-white border border-zinc-200 rounded-xl shadow-[0_8px_24px_rgba(0,0,0,0.08)] z-50 p-4 max-h-[60vh] overflow-y-auto"
+          className="absolute left-0 top-full mt-[11px] w-full bg-white border border-zinc-200  z-50 p-4 max-h-[60vh] overflow-y-auto"
           onMouseDown={(e) => e.preventDefault()}
         >
           {filteredColors.length > 0 && (

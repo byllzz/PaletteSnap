@@ -17,7 +17,7 @@ export const useSyncWithURL = () => {
     selectedFilters,
     selectedPaletteId,
     setView,
-    setActiveTags,
+    _syncActiveTagsFromURL,
     setSearchText,
     setSelectedFilters,
     selectPalette,
@@ -31,7 +31,10 @@ export const useSyncWithURL = () => {
     const filterIds =
       searchParams.get("filters")?.split(",").filter(Boolean) || [];
 
-    let newView: any = "new";
+    //  default is now "notFound" instead of "new" - any path that
+    // doesn't match a known route below now correctly falls through to the
+    // 404 page instead of silently pretending to be the homepage.
+    let newView: any = "notFound";
     let newActiveTags: string[] | null = null;
     let newSelectedId: string | null = null;
 
@@ -66,6 +69,7 @@ export const useSyncWithURL = () => {
     } else if (pathSegments[0] === "privacy") {
       newView = "privacy";
     }
+    // anything else falls through and stays "notFound"
 
     const filtersFromURL = filterIds
       .map((id) => ALL_FILTERS.find((f) => f.id === id))
@@ -76,7 +80,7 @@ export const useSyncWithURL = () => {
     const currentTagsStr = [...activeTags].sort().join(",");
     const newTagsStr = [...(newActiveTags || [])].sort().join(",");
     if (currentTagsStr !== newTagsStr) {
-      setActiveTags(newActiveTags || []);
+      _syncActiveTagsFromURL(newActiveTags || []);
     }
 
     if (selectedPaletteId !== newSelectedId) selectPalette(newSelectedId);
@@ -124,6 +128,12 @@ export const useSyncWithURL = () => {
     } else if (currentView === "privacy") {
       path = "/privacy";
     }
+    // "notFound" intentionally has no branch here - Effect 2 only ever
+    // pushes URLs for known views. Since notFound is reached by the user
+    // landing on a bad URL (not by the store deciding to go there), we
+    // don't want this effect to rewrite their bad URL back to "/" - that
+    // would erase the evidence of what they actually tried to visit and
+    // make the 404 flash-then-redirect instead of staying put.
 
     const params = new URLSearchParams();
     if (searchText) params.set("q", searchText);
@@ -134,7 +144,12 @@ export const useSyncWithURL = () => {
     const queryString = params.toString();
     const fullPath = queryString ? `${path}?${queryString}` : path;
 
-    if (window.location.pathname + window.location.search !== fullPath) {
+    //  skip the URL rewrite entirely while on the 404 view, so the
+    // browser keeps showing the actual bad URL instead of snapping to "/".
+    if (
+      currentView !== "notFound" &&
+      window.location.pathname + window.location.search !== fullPath
+    ) {
       navigate(fullPath, { replace: true });
     }
   }, [

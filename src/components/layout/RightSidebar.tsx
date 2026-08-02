@@ -21,6 +21,7 @@ export default function RightSidebar() {
     return rawData.palettes.filter((p) => rawData.likedPaletteIds.has(p.id));
   }, [rawData.palettes, rawData.likedPaletteIds]);
 
+  // If on Detail page and no favorites, just return null
   if (currentView === "detail" && likedPalettes.length === 0) return null;
 
   let title = "Color palettes for designers";
@@ -31,36 +32,44 @@ export default function RightSidebar() {
       .map((t) => t.charAt(0).toUpperCase() + t.slice(1))
       .join(", ");
     title = `${formatted} palettes`;
-  } else if (currentView === "new") title = "New palettes";
+  } else if (currentView === "new")
+    title = "Color Palettes for Designers and Artists";
   else if (currentView === "popular") title = "Popular palettes";
   else if (currentView === "random") title = "Random palettes";
   else if (currentView === "tagged") title = "Filtered palettes";
 
   return (
-    <div className="space-y-8">
-      <div>
-        <h2
-          className="text-[19px] text-zinc-900"
-          style={{ fontFamily: "'Instrument Serif', serif" }}
-        >
-          <em className="not-italic italic">{title}</em>
-        </h2>
-        <p className="text-[12.5px] text-zinc-400 mt-1.5 leading-relaxed">
-          Discover new hand-picked palettes, save your favorites, and publish
-          your own.
-        </p>
-      </div>
+    <div className="space-y-7">
+      {/* ONLY RENDER THE TEXT BLOCK IF NOT ON THE DETAIL PAGE */}
+      {currentView !== "detail" && (
+        <div className="w-full max-w-[80%] leading-tight">
+          <h2 className="text-[18px] text-zinc-900 font-medium">
+            <em className="not-italic italic">{title}</em>
+          </h2>
+          <p className="text-[12.5px] text-zinc-900 mt-1.5 leading-relaxed">
+            Discover new hand-picked palettes, save your favorites, and publish
+            your own.
+          </p>
+        </div>
+      )}
 
+      {/* ALWAYS RENDER THE COLLECTION GRID IF FAVORITES EXIST */}
       {likedPalettes.length > 0 && (
-        <div>
-          <p className="text-[10.5px] font-medium tracking-[0.08em] text-zinc-400 uppercase mb-3">
-            Collection · {Math.min(likedPalettes.length, 12)}
+        <div className="pr-5">
+          <p className="text-[18px] font-medium tracking-normal text-black mb-3">
+            Collection ·{" "}
+            <span
+              className="font-bold"
+              style={{ fontFamily: "Instrument Serif" }}
+            >
+              {Math.min(likedPalettes.length, 12)}
+            </span>
           </p>
           <div className="grid grid-cols-4 gap-2">
             {likedPalettes.slice(0, 12).map((p) => (
               <div
                 key={p.id}
-                className="relative w-full aspect-square rounded-md overflow-hidden flex flex-col border border-zinc-200/70 cursor-pointer hover:border-zinc-400 transition-colors"
+                className="relative w-full aspect-square rounded-[5px] overflow-hidden flex flex-col cursor-pointer transition-colors"
                 onMouseEnter={() => setHoveredPaletteId(p.id)}
                 onMouseLeave={() => setHoveredPaletteId(null)}
                 onClick={() => selectPalette(p.id)}
@@ -79,7 +88,7 @@ export default function RightSidebar() {
                       e.stopPropagation();
                       toggleLike(p.id);
                     }}
-                    className="absolute top-1 right-1 bg-white/90 rounded-full p-1 text-zinc-500 hover:text-zinc-900 hover:bg-white transition-colors"
+                    className="absolute top-0.5 right-0.5 bg-white/90 rounded-full p-1 text-zinc-500 hover:text-zinc-900 hover:bg-white transition-colors"
                     title="Remove from collection"
                   >
                     <svg

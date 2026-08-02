@@ -29,8 +29,8 @@ export default function ExportModal({
 
   const downloadCanvas = (format: "png" | "jpeg") => {
     const canvas = document.createElement("canvas");
-    canvas.width = 800;
-    canvas.height = 1000;
+    canvas.width = 400;
+    canvas.height = 400;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 

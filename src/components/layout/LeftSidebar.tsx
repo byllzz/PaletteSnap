@@ -21,8 +21,8 @@ const TAGS = [
 const NAV_ICONS: Record<string, JSX.Element> = {
   new: (
     <svg
-      width="16"
-      height="16"
+      width="22"
+      height="22"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -35,8 +35,8 @@ const NAV_ICONS: Record<string, JSX.Element> = {
   ),
   popular: (
     <svg
-      width="16"
-      height="16"
+      width="22"
+      height="22"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -49,8 +49,8 @@ const NAV_ICONS: Record<string, JSX.Element> = {
   ),
   random: (
     <svg
-      width="16"
-      height="16"
+      width="22"
+      height="22"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -63,8 +63,8 @@ const NAV_ICONS: Record<string, JSX.Element> = {
   ),
   collection: (
     <svg
-      width="16"
-      height="16"
+      width="22"
+      height="22"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -77,8 +77,8 @@ const NAV_ICONS: Record<string, JSX.Element> = {
   ),
   creations: (
     <svg
-      width="16"
-      height="16"
+      width="22"
+      height="22"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -110,9 +110,9 @@ export default function LeftSidebar() {
       <button
         key={key}
         onClick={() => setView(view as any)}
-        className={`group flex items-center gap-3 pl-3 pr-3 py-2 rounded-md text-left w-full text-[13.5px] transition-colors relative ${
+        className={`group flex items-center gap-2 pl-3 tracking-tight pr-2 py-[7px] rounded-[10px] font-normal! text-left w-full text-[17px] transition-colors relative ${
           isActive
-            ? "text-zinc-900 font-medium bg-zinc-100"
+            ? "text-zinc-900 font-medium bg-zinc-200/50"
             : "text-zinc-500 hover:text-zinc-800 hover:bg-zinc-50"
         }`}
       >
@@ -131,12 +131,9 @@ export default function LeftSidebar() {
   };
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-2">
       {/* Browse */}
-      <div className="flex flex-col gap-0.5">
-        <p className="px-3 mb-2 text-[10.5px] font-medium tracking-[0.08em] text-zinc-400 uppercase">
-          Browse
-        </p>
+      <div className="flex flex-col gap-1.5">
         {navItem("new", "New", "new")}
         {navItem("popular", "Popular", "popular")}
         {navItem("random", "Random", "random")}
@@ -144,11 +141,8 @@ export default function LeftSidebar() {
         {hasUserCreated && navItem("creations", "My Creations", "creations")}
       </div>
 
-      {/* Colors / tags — the one place color enters the chrome */}
-      <div className="flex flex-col gap-0.5">
-        <p className="px-3 mb-2 text-[10.5px] font-medium tracking-[0.08em] text-zinc-400 uppercase">
-          Colors
-        </p>
+      {/* Colors / tags  */}
+      <div className="flex flex-col pl-1.5 gap-1.5 border-t pt-2.5 border-zinc-200">
         {TAGS.map((tag) => {
           const isSelected = activeTags.some(
             (t) => t.toLowerCase() === tag.toLowerCase(),
@@ -158,7 +152,7 @@ export default function LeftSidebar() {
             <button
               key={tag}
               onClick={() => handleTagClick(tag)}
-              className="relative flex items-center gap-3 pl-3 pr-3 py-1.5 text-left text-[13.5px] rounded-md transition-colors"
+              className={`relative flex items-center gap-2 pl-3 pr-3 py-1.5 text-left text-[12.5px] rounded-full transition-colors ${isSelected ? "" : "hover:text-zinc-800 hover:bg-zinc-50"}`}
               style={{
                 backgroundColor: isSelected
                   ? "rgba(24,24,27,0.045)"
@@ -167,14 +161,9 @@ export default function LeftSidebar() {
                 fontWeight: isSelected ? 500 : 400,
               }}
             >
-              {isSelected && (
-                <span
-                  className="absolute left-0 top-1.5 bottom-1.5 w-[2.5px] rounded-full"
-                  style={{ backgroundColor: dot }}
-                />
-              )}
+
               <span
-                className="w-2.5 h-2.5 rounded-full flex-shrink-0 border border-black/5"
+                className="w-2 h-2 relative bottom-[1px] rounded-full flex-shrink-0 border border-black/5"
                 style={{ backgroundColor: dot }}
               />
               {tag}

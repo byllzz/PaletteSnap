@@ -5,20 +5,23 @@ import { FilterItem } from "../../store/useStore";
 import { COLOR_FILTERS, TAG_FILTERS } from "../../data/filters";
 import { TAG_COLORS } from "../../data/tagColors";
 import { generateId } from "../../utils/idGenerator";
+import { SearchIcon } from "../ui/Icons";
 
 export default function CreatePalette() {
-  const [colors, setColors] = useState([
-    "#B0B0B0",
-    "#C0C0C0",
-    "#D0D0D0",
-    "#E0E0E0",
-  ]);
+  // Default colors for the palette
+  const DEFAULT_COLORS = ["#B0B0B0", "#C0C0C0", "#D0D0D0", "#E0E0E0"];
+  const [colors, setColors] = useState(DEFAULT_COLORS);
   const [selectedTags, setSelectedTags] = useState<FilterItem[]>([]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const inputWrapperRef = useRef<HTMLDivElement>(null);
   const [inputValue, setInputValue] = useState("");
 
+  const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+
   const { addPalette, setView } = useStore();
+
+  // Check if the user has changed at least one color
+  const isDefaultPalette = colors.every((c, i) => c === DEFAULT_COLORS[i]);
 
   const lowerSearch = inputValue.toLowerCase().trim();
   const filteredColors = COLOR_FILTERS.filter((c) =>
@@ -89,26 +92,53 @@ export default function CreatePalette() {
   };
 
   return (
-    <div className="flex flex-col items-center py-10 max-w-3xl mx-auto w-full">
-      <h1
-        className="text-[32px] mb-1.5 text-zinc-900"
-        style={{ fontFamily: "'Instrument Serif', serif" }}
+    <div className="flex flex-col items-center py-10 max-w-[400px] mx-auto w-full relative">
+      {/* Top-left Cancel Button with Arrow */}
+      <button
+        onClick={() => setView("new")}
+        className="absolute -left-8 top-10 flex items-center gap-1 top-2 p-2 rounded-full hover:bg-zinc-100 text-zinc-600 transition-colors"
+        aria-label="Go back"
       >
-        <em className="not-italic italic">New palette</em>
+        <svg
+          width="10"
+          height="10"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="relative bottom-[1px]"
+        >
+          <line x1="19" y1="12" x2="5" y2="12" />
+          <polyline points="12 19 5 12 12 5" />
+        </svg>
+        <span className="text-zinc-900 text-[10px]">Cancal Creation</span>
+      </button>
+
+      <h1 className="text-[18px] mb-1.5 mt-8 text-zinc-900 not-italic">
+        <em className="not-italic">New palette Creation</em>
       </h1>
-      <p className="text-zinc-500 mb-8 text-[13.5px]">
-        Pick four colors and publish for everyone to discover
+      <p className="text-zinc-900 mb-12 text-[11.5px]">
+        Create a new palette and contribute to PaletteSnap’s collection
       </p>
 
-      <div className="w-full h-[450px] rounded-xl overflow-hidden flex flex-col border border-zinc-200 mb-6">
+      <div className="w-full h-[400px] rounded-xl overflow-hidden flex flex-col border border-zinc-200 mb-6">
         {colors.map((color, idx) => (
-          <div key={idx} className="flex-1 relative group">
+          <div
+            key={idx}
+            onClick={() => inputRefs.current[idx]?.click()}
+            className={`${
+              idx === 0 ? "flex-[2]" : idx === 1 ? "flex-[1.3]" : "flex-1"
+            } relative group cursor-pointer hover:opacity-95 transition-opacity`}
+          >
             <div className="w-full h-full" style={{ backgroundColor: color }} />
             <input
+              ref={(el) => (inputRefs.current[idx] = el)}
               type="color"
               value={color}
               onChange={(e) => updateColor(idx, e.target.value)}
-              className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 cursor-pointer w-10 h-10 rounded-full border-2 border-white shadow-md transition-opacity"
+              className="absolute w-0 h-0 opacity-0 pointer-events-none"
             />
           </div>
         ))}
@@ -116,7 +146,7 @@ export default function CreatePalette() {
 
       <div className="w-full max-w-lg relative" ref={inputWrapperRef}>
         <div
-          className={`flex items-center flex-wrap gap-2 px-3.5 py-1.5 bg-white border rounded-full transition-all min-h-[44px] cursor-text ${
+          className={`flex items-center flex-wrap gap-2 px-3.5 py-1.5 bg-white border rounded-full transition-all min-h-[38px] cursor-text ${
             isDropdownOpen
               ? "border-zinc-300 shadow-[0_1px_2px_rgba(0,0,0,0.04)]"
               : "border-zinc-200"
@@ -150,6 +180,11 @@ export default function CreatePalette() {
             </div>
           ))}
 
+          {/*  Search Icon added before the input */}
+          <div className="flex items-center text-zinc-400 flex-shrink-0">
+            <SearchIcon />
+          </div>
+
           <input
             type="text"
             value={inputValue}
@@ -161,7 +196,7 @@ export default function CreatePalette() {
             onFocus={() => setIsDropdownOpen(true)}
             onBlur={handleBlur}
             placeholder={selectedTags.length > 0 ? "Add tag" : "Add tags"}
-            className="flex-1 outline-none bg-transparent min-w-[80px] text-[13.5px] placeholder-zinc-400"
+            className="flex-1 outline-none bg-transparent min-w-[60px] text-[13.5px] placeholder-zinc-400 ml-1"
           />
 
           {(inputValue || selectedTags.length > 0) && (
@@ -171,7 +206,7 @@ export default function CreatePalette() {
                 setInputValue("");
                 clearAllTags();
               }}
-              className="text-zinc-400 hover:text-zinc-700 w-4 h-4 flex items-center justify-center"
+              className="text-zinc-400 hover:text-zinc-700 w-4 h-4 flex items-center justify-center flex-shrink-0"
             >
               ×
             </button>
@@ -251,11 +286,11 @@ export default function CreatePalette() {
         )}
       </div>
 
+      {/* Publish button hidden if palette is still default */}
       <div className="w-full max-w-lg mt-6 flex justify-end gap-2.5">
-        <Button variant="outline" onClick={() => setView("new")}>
-          Cancel
-        </Button>
-        <Button onClick={handleSave}>Publish palette</Button>
+        {!isDefaultPalette && (
+          <Button onClick={handleSave}>Publish palette</Button>
+        )}
       </div>
     </div>
   );

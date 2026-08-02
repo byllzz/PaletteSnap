@@ -5,6 +5,7 @@ import CreatePalette from "../center/CreatePalette";
 import About from "../static/About";
 import TermsOfService from "../static/TermsOfService";
 import PrivacyPolicy from "../static/PrivacyPolicy";
+import NotFound from "../static/NotFound";
 
 const VIEW_TITLES: Record<string, string> = {
   new: "New palettes",
@@ -16,7 +17,8 @@ const VIEW_TITLES: Record<string, string> = {
 };
 
 export default function CenterPanel() {
-  const { currentView, selectedPaletteId, isHydrated } = useStore();
+  const { currentView, selectedPaletteId, isHydrated, likedPaletteIds } =
+    useStore();
 
   if (!isHydrated) {
     return (
@@ -43,7 +45,7 @@ export default function CenterPanel() {
       {currentView === "about" && <About />}
       {currentView === "terms" && <TermsOfService />}
       {currentView === "privacy" && <PrivacyPolicy />}
-
+      {currentView === "notFound" && <NotFound />}
       {[
         "new",
         "popular",
@@ -53,14 +55,19 @@ export default function CenterPanel() {
         "creations",
       ].includes(currentView) && (
         <div className="mt-2">
-          <h1
-            className="text-[26px] mb-5 hidden md:block text-zinc-900"
-            style={{ fontFamily: "'Instrument Serif', serif" }}
-          >
-            <em className="not-italic italic">
-              {VIEW_TITLES[currentView] ?? "Palettes"}
-            </em>
-          </h1>
+          {/* Collection Tab (With Divider and Count) */}
+          {currentView === "collection" && (
+            <div className="flex items-center justify-between pb-4 mb-6 border-b border-zinc-200 hidden md:flex">
+              <h1 className="text-[16px] text-zinc-900">
+                <em className="not-italic italic">My collection</em>
+              </h1>
+              <span className="text-zinc-500 text-[13px]">
+                {likedPaletteIds.size} palette
+                {likedPaletteIds.size !== 1 ? "s" : ""}
+              </span>
+            </div>
+          )}
+
           <PaletteGrid />
         </div>
       )}
