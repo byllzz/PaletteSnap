@@ -2,7 +2,7 @@
   <a href="https://palettesnap.vercel.app/">
     <img src="https://raw.githubusercontent.com/bilalmlkdev/palettesnap/main/public/favicon.svg" alt="PaletteSnap Logo" width="100%" height="120">
   </a>
-  
+
   # PaletteSnap
   A fast, no-login color palette discovery tool - browse, search, like, <br> and publish four-color palettes with zero signup friction.
 
@@ -23,7 +23,7 @@ Welcome to **PaletteSnap** - a modern, open-source color palette tool built to m
 
 ## Why PaletteSnap?
 - **Frictionless Browsing:** Switch instantly between **New, Popular, Random, Tagged, and Custom Feeds** with smart sidebar tag swatches and a multi-tag search bar.
-- **Zero-Barrier Publishing:** Pick 4 colors, tag them, and **publish instantly** for the world to see—no accounts, emails, or passwords required.
+- **Zero-Barrier Publishing:** Pick 4 colors, tag them, and **publish instantly** for the world to see-no accounts, emails, or passwords required.
 - **Anonymous Identity:** Your likes and personal collections are tracked seamlessly via `localStorage`.
 - **Global Persistence:** Backed by **Supabase (Postgres)** so published palettes and like counts sync globally in real time.
 - **Rich Palette Details:** Get instant **Hex & RGB values**, click-to-copy functionality, and discover **Related Palettes** by shared tags.
@@ -37,7 +37,7 @@ Welcome to **PaletteSnap** - a modern, open-source color palette tool built to m
 - **Contextual Discovery:** View **Related Palettes** that share tags with your current selection.
 
 ### Creation & Export
-- **Instant Publishing:** Pick 4 colors, tag them, and publish instantly—**no account needed**.
+- **Instant Publishing:** Pick 4 colors, tag them, and publish instantly-**no account needed**.
 - **Local History:** Track everything you've published on the device via **My Creations**.
 - **One-Click Export:** Download color schemes as **SVG, PNG, or JPEG**, or copy hex values instantly with **Click-to-Clipboard**.
 
@@ -48,7 +48,7 @@ Welcome to **PaletteSnap** - a modern, open-source color palette tool built to m
 
 # How to Use PaletteSnap
 1. **Discover Palettes:** Visit the live site and instantly explore beautiful four-color palettes. Filter using the multi-tag search bar or the popular color tags in the sidebar.
-2. **Interact & Save:** Hit the heart icon to save palettes you like. Your choices are automatically remembered on your device—no profile creation required.
+2. **Interact & Save:** Hit the heart icon to save palettes you like. Your choices are automatically remembered on your device-no profile creation required.
 3. **Copy & Export:** Click on any individual color block to copy its Hex or RGB code instantly. You can also export full palettes as high-quality SVGs, PNGs, or JPEGs for your design workflows.
 4. **Publish Your Own:** Open the palette creation tool, choose 4 colors, assign descriptive tags, and hit publish to share it with the world instantly.
 
