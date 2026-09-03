@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { supabase } from "../lib/supabase";
-import { getDeviceId } from "../utils/devideId";
+import { getDeviceId } from "../utils/deviceId"; //  path updated
 import { MOCK_PALETTES } from "../data/mockPalettes";
 
 export type FilterItem = {
@@ -241,25 +241,32 @@ export const useStore = create<AppState>((set, get) => {
 
       set({ likedPaletteIds: newSet, palettes: updatedPalettes });
 
+      // Async sync – wrapped in try/catch to prevent unhandled rejections
       (async () => {
-        if (isCurrentlyLiked) {
-          await supabase
-            .from("likes")
-            .delete()
-            .eq("device_id", deviceId)
-            .eq("palette_id", id);
-          await supabase
-            .from("palettes")
-            .update({ likes: target.likes - 1 })
-            .eq("id", id);
-        } else {
-          await supabase
-            .from("likes")
-            .insert({ device_id: deviceId, palette_id: id });
-          await supabase
-            .from("palettes")
-            .update({ likes: target.likes + 1 })
-            .eq("id", id);
+        try {
+          if (isCurrentlyLiked) {
+            await supabase
+              .from("likes")
+              .delete()
+              .eq("device_id", deviceId)
+              .eq("palette_id", id);
+            await supabase
+              .from("palettes")
+              .update({ likes: target.likes - 1 })
+              .eq("id", id);
+          } else {
+            await supabase
+              .from("likes")
+              .insert({ device_id: deviceId, palette_id: id });
+            await supabase
+              .from("palettes")
+              .update({ likes: target.likes + 1 })
+              .eq("id", id);
+          }
+        } catch (error) {
+          console.error("Failed to sync like:", error);
+          // The UI already reflects the change, so we don't need to revert.
+          // Logging the error is enough for debugging.
         }
       })();
     },

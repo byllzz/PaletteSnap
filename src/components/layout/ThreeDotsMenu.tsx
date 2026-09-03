@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { useStore } from "../../store/useStore";
 
 
-const GITHUB_URL = "https://github.com/byllzz/palettesnap.git"; //
+const GITHUB_URL = "https://github.com/bilalmlkdev/palettesnap.git"; //
 const PROFILE_URL = "https://bilalmlkdev.vercel.app/"; //
 
 export default function ThreeDotsMenu() {

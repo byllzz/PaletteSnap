@@ -80,7 +80,7 @@ export default function About() {
               Instagram
             </a>
             <a
-              href="https://github.com/byllzz/"
+              href="https://github.com/bilalmlkdev/"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 px-4 py-2 border border-zinc-200 rounded-full text-[13px] font-medium text-zinc-700 hover:bg-zinc-50 hover:border-zinc-300 transition-colors"
